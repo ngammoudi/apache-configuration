@@ -1,0 +1,60 @@
+# ###################################
+# This file is managed by puppet
+# PLEASE DON'T MODIFY BY HAND
+# ###################################
+<VirtualHost *:80>
+
+
+
+    ServerAdmin exo-swf@exoplatform.com
+
+    #####################
+    # Generic configuration
+    #####################
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+    
+    DocumentRoot /var/www/default
+    <Directory /var/www/default>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+    
+    Alias /icons/ "/usr/share/apache2/icons/"
+    <Directory "/usr/share/apache2/icons">
+        Options Indexes MultiViews
+        AllowOverride None
+        Order allow,deny
+        Allow from all
+    </Directory>
+    
+    # don't loose time with IP address lookups
+    HostnameLookups Off
+    # needed for named virtual hosts
+    UseCanonicalName Off
+    # configures the footer on server-generated documents
+    ServerSignature Off
+    
+    #####################
+    # Error pages
+    #####################
+    
+    #####################
+    # Include configuration
+    #####################
+    Include /etc/apache2/includes/default-error-pages.conf
+
+    #####################
+    # Log configuration
+    #####################
+    ErrorLog        ${APACHE_LOG_DIR}/default-error.log
+    LogLevel        warn
+    RewriteLog      ${APACHE_LOG_DIR}/default-rewrite.log
+    RewriteLogLevel 0
+    CustomLog       ${APACHE_LOG_DIR}/default-access.log combined_duration
+    
+</VirtualHost>

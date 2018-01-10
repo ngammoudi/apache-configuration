@@ -1,0 +1,60 @@
+# ###################################
+# This file is managed by puppet
+# PLEASE DON'T MODIFY BY HAND
+# ###################################
+<VirtualHost *:80>
+
+    ServerName tqa-zabbix.exoplatform.lan
+    ServerAlias monitoring-vagrant.exoplatform.org
+
+    ServerAdmin exo-swf@exoplatform.com
+
+    #####################
+    # Generic configuration
+    #####################
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+    
+    DocumentRoot /usr/share/zabbix
+    <Directory /usr/share/zabbix>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+    
+    Alias /icons/ "/usr/share/apache2/icons/"
+    <Directory "/usr/share/apache2/icons">
+        Options Indexes MultiViews
+        AllowOverride None
+        Order allow,deny
+        Allow from all
+    </Directory>
+    
+    # don't loose time with IP address lookups
+    HostnameLookups Off
+    # needed for named virtual hosts
+    UseCanonicalName Off
+    # configures the footer on server-generated documents
+    ServerSignature Off
+    
+    #####################
+    # Error pages
+    #####################
+    
+    #####################
+    # Include configuration
+    #####################
+    Include /etc/zabbix/apache.conf
+    #####################
+    # Log configuration
+    #####################
+    ErrorLog        ${APACHE_LOG_DIR}/tqa-zabbix.exoplatform.lan-error.log
+    LogLevel        warn
+    RewriteLog      ${APACHE_LOG_DIR}/tqa-zabbix.exoplatform.lan-rewrite.log
+    RewriteLogLevel 0
+    CustomLog       ${APACHE_LOG_DIR}/tqa-zabbix.exoplatform.lan-access.log combined_duration
+    
+</VirtualHost>
